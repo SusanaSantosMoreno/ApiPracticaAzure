@@ -48,5 +48,9 @@ namespace ApiPracticaAzure.Repositories {
             personaje.IdSerie = idSerie;
             this.context.SaveChanges();
         }
+
+        public UsuariosAzure ExisteUsuario(String email, String password) {
+            return this.context.Usuarios.SingleOrDefault(x => x.Email == email && x.Pass == password);
+        }
     }
 }

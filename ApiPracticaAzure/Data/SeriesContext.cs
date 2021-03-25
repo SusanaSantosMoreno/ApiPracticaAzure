@@ -12,6 +12,7 @@ namespace ApiPracticaAzure.Data {
 
         public DbSet<Serie> Series { get; set; }
         public DbSet<Personaje> Personajes { get; set; }
+        public DbSet<UsuariosAzure> Usuarios { get; set; }
 
     }
 }

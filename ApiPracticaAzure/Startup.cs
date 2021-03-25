@@ -1,4 +1,5 @@
 using ApiPracticaAzure.Data;
+using ApiPracticaAzure.Helpers;
 using ApiPracticaAzure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +28,7 @@ namespace ApiPracticaAzure {
 
             String cadena = this.Configuration.GetConnectionString("SeriesSQL");
             services.AddTransient<RepositorySeries>();
+            services.AddTransient<HelperToken>();
             services.AddDbContext<SeriesContext>(options => options.UseSqlServer(cadena));
 
             services.AddSwaggerGen(options => {
@@ -36,6 +38,9 @@ namespace ApiPracticaAzure {
                     Description = "Api Series Práctica Azure 2021"
                 });
             });
+            HelperToken helpers = new HelperToken(Configuration);
+            services.AddAuthentication(helpers.GetAuthOptions()).
+                AddJwtBearer(helpers.GetJwtBearerOptions());
             services.AddControllers();
         }
 
@@ -55,6 +60,7 @@ namespace ApiPracticaAzure {
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
